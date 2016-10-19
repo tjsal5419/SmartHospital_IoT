@@ -1,0 +1,98 @@
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<style type="text/css">
+html,
+body {
+        height: 100%;        /* body와 html의 높이를 100% 로 지정 */
+        margin: 0;
+        padding: 0;
+}
+#center {
+        width: 200px;        /* 폭이나 높이가 일정해야 합니다. */
+        height: 200px;        /* 폭이나 높이가 일정해야 합니다. */
+        position: absolute;
+        top: 50%;        /* 화면의 중앙에 위치 */
+        left: 50%;        /* 화면의 중앙에 위치 */
+        margin: -100px 0 0 -100px;        /* 높이의 절반과 너비의 절반 만큼 margin 을 이용하여 조절 해 줍니다. */
+        border: 1px inset #ddd;
+}
+
+
+</style>
+
+<html>
+    <head>
+		<meta charset="UTF-8">
+		<title> 수액 관리 프로그램 테크니쿠스2 </title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	</head>
+	
+<body>
+<%
+	String loginName = (String)session.getAttribute("name");
+	String loginId = (String)session.getAttribute("id");
+	String loginMode = (String)session.getAttribute("mode");
+	String loginModeKr = null;
+	
+	if(loginName != null){
+		
+	if(loginMode.equals("nurse")){
+		loginModeKr="간호사";
+	}
+	else if(loginMode.equals("admin")){
+		loginModeKr="관리자";
+	}
+	}
+%>
+	<!-- 상단 네비게이션 바 이용 -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand"  href="#"> 환자 수액 관리 프로그램 </a>
+        </div>
+<%           
+	if(loginName == null){
+%>
+        <div class="collapse navbar-collapse" align="right">
+        
+          <ul class="nav navbar-nav  navbar-right">
+	        <li class="active"><a href="#">홈으로</a></li>
+            <li><a href="LoginPage.jsp"> 로그인 </a></li>
+          </ul>
+        </div> 
+            
+<% 
+	}
+        
+	else{
+%>
+        <div class="collapse navbar-collapse" >
+          <ul class="nav navbar-nav  navbar-right ">
+	        <li class="active"><a href="#"><%= loginName%> <%=loginModeKr%> 님 반갑습니다. </a></li>
+            <li><a href="Logout.jsp"> 로그아웃 </a></li>
+         </ul>
+        </div> 
+            
+<% 
+		
+	}
+%>    
+
+
+	</div>
+  </div>	
+  
+   <br/>
+ <br/>
+ <br/>
+ <br/>
+ <br/>
