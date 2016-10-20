@@ -11,79 +11,86 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">��</button>
-                            <h4 class="modal-title">�˸�</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">닫기</button>
+                            <h4 class="modal-title">알림창</h4>
                         </div>
                         <div class="modal-body">
                             <p class="modal-contents"></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">�ݱ�</button>
                         </div>
                     </div>
                 </div>
             </div>
             <hr/>
                  
- 
- 
-        <form class="form-horizontal" role="form" method="post" action="javascript:alert( 'success!' );">
+        <form class="form-horizontal" role="form" method="post" action="patientSapCheck_Register.jsp">
        
-            <div class="form-group" id="divId">
-                <label for="inputId" class="col-lg-2 control-label">아&nbsp이&nbsp디</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control onlyAlphabetAndNumber" id="id" data-rule-required="true" placeholder="20자이내 아이디를 입력해주세요." maxlength="30">
+            <div class="form-group" id="divSap">
+                <label class="col-lg-2 control-label"> 링거대 번호 </label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control onlyNumber" id="sapNum" name="sapNum" data-rule-required="true" placeholder="3자리 링거대 고유 번호를 입력해주세요(ex:000)" maxlength="3">
                 </div>
-            </div>
+                
+                  <div class="col-lg-offset-2 col-lg-8">
+                    <input type="button" id="sapCheck" class="btn btn-default" value="링거대 이용 여부 확인">
+                  </div>
+                  <div id="result" class="col-lg-offset-2 col-lg-10"> </div> 
+            
+        	</div>
        
-            <div class="form-group" id="divPassword">
-                <label for="inputPassword" class="col-lg-2 control-label">비밀번호</label>
-                <div class="col-lg-10">
-                    <input type="password" class="form-control" id="password" name="excludeHangul" data-rule-required="true" placeholder="비밀번호를 입력해주세요." maxlength="30">
-                </div>
-            </div>
-       
-            <div class="form-group" id="divPasswordCheck">
-                <label for="inputPasswordCheck" class="col-lg-2 control-label">비밀번호 확인</label>
-                <div class="col-lg-10">
-                    <input type="password" class="form-control" id="passwordCheck" data-rule-required="true" placeholder="비밀번호를 다시 입력해주세요." maxlength="30">
+            <div class="form-group" id="divSapName">
+                <label class="col-lg-2 control-label"> 링거액 이름 </label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="sapName" name="sapName" data-rule-required="true" placeholder="링거액 이름을 입력해주세요." maxlength="10">
                 </div>
             </div>
        
             <div class="form-group" id="divName">
-                <label for="inputName" class="col-lg-2 control-label">이&nbsp&nbsp름</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control onlyHangul" id="name" data-rule-required="true" placeholder="간호사 이름을 입력해주세요." maxlength="15">
+                <label for="inputName" class="col-lg-2 control-label">환자 이름</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control onlyHangul" id="name" name="name" data-rule-required="true" placeholder="환자 이름을 입력해주세요." maxlength="10">
                 </div>
             </div>
              
-            <div class="form-group" id="divPhoneNumber">
-                <label for="inputPhoneNumber" class="col-lg-2 control-label">전화번호</label>
-                <div class="col-lg-10">
-                    <input type="tel" class="form-control onlyNumber" id="phoneNumber" data-rule-required="true" placeholder="간호사 연락처를 입력해주세요." maxlength="11">
-                </div>
-            </div>
-
             <div class="form-group">
-                <div class="col-lg-offset-2 col-lg-10">
-                    <button type="submit" class="btn btn-default">Sign in</button>
+                <div class="col-lg-offset-2 col-lg-8">
+                    <button type="submit" class="btn btn-default">등록하기</button>
                 </div>
             </div>
         </form>
         
         
-        
 	</div>
    </div>
   </div>
-  
   </body>
   
           <script>
+          	var isMemberChecked="N";
+          	
+          	$(document).ready(function(){
+          		
+          		$("#sapCheck").click(function(){
+          			var param="sapNum="+$("#sapNum").val();
+          			isMemberChecked = "Y"
+          			          				
+          				$.ajax({
+          					type: "post",
+          					url: "/nurseWeb/patientMember/sapCheck.do",
+          					data: param,
+          					success:function(data){
+          						$("#result").html(data);
+          	          		}
+          				});
+          				
+          				
+          		});
+          		
+          	});
          
             $(function(){
                 var modalContents = $(".modal-contents");
                 var modal = $("#defaultModal");
+                
                  
              
                 $(".onlyNumber").keyup(function(event){
@@ -94,47 +101,20 @@
                 });
 
                 
-                $('#id').keyup(function(event){
+                $('#sapNum').keyup(function(event){
                      
-                    var divId = $('#divId');
+                    var divSap = $('#divSap');
                      
-                    if($('#id').val()==""){
-                        divId.removeClass("has-success");
-                        divId.addClass("has-error");
+                    if($('#sapNum').val()==""){
+                        divSap.removeClass("has-success");
+                        divSap.addClass("has-error");
                     }else{
-                        divId.removeClass("has-error");
-                        divId.addClass("has-success");
+                        divSap.removeClass("has-error");
+                        divSap.addClass("has-success");
                     }
                 });
                  
-                $('#password').keyup(function(event){
-                     
-                    var divPassword = $('#divPassword');
-                     
-                    if($('#password').val()==""){
-                        divPassword.removeClass("has-success");
-                        divPassword.addClass("has-error");
-                    }else{
-                        divPassword.removeClass("has-error");
-                        divPassword.addClass("has-success");
-                    }
-                });
-                 
-                $('#passwordCheck').keyup(function(event){
-                     
-                    var passwordCheck = $('#passwordCheck').val();
-                    var password = $('#password').val();
-                    var divPasswordCheck = $('#divPasswordCheck');
-                     
-                    if((passwordCheck=="") || (password!=passwordCheck)){
-                        divPasswordCheck.removeClass("has-success");
-                        divPasswordCheck.addClass("has-error");
-                    }else{
-                        divPasswordCheck.removeClass("has-error");
-                        divPasswordCheck.addClass("has-success");
-                    }
-                });
-                 
+
                 $('#name').keyup(function(event){
                      
                     var divName = $('#divName');
@@ -150,91 +130,32 @@
                  
                  
                  
-                $('#phoneNumber').keyup(function(event){
-                     
-                    var divPhoneNumber = $('#divPhoneNumber');
-                     
-                    if($.trim($('#phoneNumber').val())==""){
-                        divPhoneNumber.removeClass("has-success");
-                        divPhoneNumber.addClass("has-error");
-                    }else{
-                        divPhoneNumber.removeClass("has-error");
-                        divPhoneNumber.addClass("has-success");
-                    }
-                });
-                 
-                 
-                //------- validation �˻�
+                //------- validation 체크
                 $( "form" ).submit(function( event ) {
                      
                     var provision = $('#provision');
                     var memberInfo = $('#memberInfo');
-                    var divId = $('#divId');
-                    var divPassword = $('#divPassword');
-                    var divPasswordCheck = $('#divPasswordCheck');
+                    var divSap = $('#divSap');
                     var divName = $('#divName');
-                    var divPhoneNumber = $('#divPhoneNumber');
-                     
-                     
-                    //���̵� �˻�
-                    if($('#id').val()==""){
-                        modalContents.text("���̵� �Է��Ͽ� �ֽñ� �ٶ��ϴ�.");
+
+
+                    if($('#sapNum').val()==""){
+                        modalContents.text("링거액 번호를 입력해주세요.");
                         modal.modal('show');
                          
-                        divId.removeClass("has-success");
-                        divId.addClass("has-error");
-                        $('#id').focus();
+                        divSap.removeClass("has-success");
+                        divSap.addClass("has-error");
+                        $('#divSap').focus();
                         return false;
-                    }else{
-                        divId.removeClass("has-error");
-                        divId.addClass("has-success");
                     }
-                     
-                    //�н����� �˻�
-                    if($('#password').val()==""){
-                        modalContents.text("�н����带 �Է��Ͽ� �ֽñ� �ٶ��ϴ�.");
-                        modal.modal('show');
-                         
-                        divPassword.removeClass("has-success");
-                        divPassword.addClass("has-error");
-                        $('#password').focus();
-                        return false;
-                    }else{
-                        divPassword.removeClass("has-error");
-                        divPassword.addClass("has-success");
-                    }
-                     
-                    //�н����� Ȯ��
-                    if($('#passwordCheck').val()==""){
-                        modalContents.text("�н����� Ȯ���� �Է��Ͽ� �ֽñ� �ٶ��ϴ�.");
-                        modal.modal('show');
-                         
-                        divPasswordCheck.removeClass("has-success");
-                        divPasswordCheck.addClass("has-error");
-                        $('#passwordCheck').focus();
-                        return false;
-                    }else{
-                        divPasswordCheck.removeClass("has-error");
-                        divPasswordCheck.addClass("has-success");
-                    }
-                     
-                    //�н����� ��
-                    if($('#password').val()!=$('#passwordCheck').val() || $('#passwordCheck').val()==""){
-                        modalContents.text("�н����尡 ��ġ���� �ʽ��ϴ�.");
-                        modal.modal('show');
-                         
-                        divPasswordCheck.removeClass("has-success");
-                        divPasswordCheck.addClass("has-error");
-                        $('#passwordCheck').focus();
-                        return false;
-                    }else{
-                        divPasswordCheck.removeClass("has-error");
-                        divPasswordCheck.addClass("has-success");
-                    }
-                     
-                    //�̸�
+                    else{
+                        divSap.removeClass("has-error");
+                        divSap.addClass("has-success");
+                    } 
+                    
+                    //이름 입력 확인 
                     if($('#name').val()==""){
-                        modalContents.text("�̸��� �Է��Ͽ� �ֽñ� �ٶ��ϴ�.");
+                        modalContents.text("환자이름을 입력해주세요.");
                         modal.modal('show');
                          
                         divName.removeClass("has-success");
@@ -244,27 +165,27 @@
                     }else{
                         divName.removeClass("has-error");
                         divName.addClass("has-success");
-                    }
-                     
-                     
-                    //�޴��� ��ȣ
-                    if($('#phoneNumber').val()==""){
-                        modalContents.text("�޴��� ��ȣ�� �Է��Ͽ� �ֽñ� �ٶ��ϴ�.");
+                    } 
+                    
+                     if(isMemberChecked != "Y"){
+                        modalContents.text("아이디 중복 확인을 해주세요.");
                         modal.modal('show');
-                         
-                        divPhoneNumber.removeClass("has-success");
-                        divPhoneNumber.addClass("has-error");
-                        $('#phoneNumber').focus();
+                        divSap.removeClass("has-success");
+                        divSap.addClass("has-error");
+                        
                         return false;
+                        
                     }else{
-                        divPhoneNumber.removeClass("has-error");
-                        divPhoneNumber.addClass("has-success");
+                    	divName.removeClass("has-error");
+                        divName.addClass("has-success");
                     }
                      
+                    
                  
                 });
                  
             });
              
         </script>
+        
         
