@@ -64,7 +64,7 @@
 	    <div class="container" >
 	    
 	        <div class="row">
-	        
+	       
 	            <div class="col-xs-12">
 	            
 <h1>관리자 모드입니다.</h1>

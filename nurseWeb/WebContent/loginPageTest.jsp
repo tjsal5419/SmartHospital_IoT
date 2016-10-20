@@ -1,7 +1,7 @@
 
     <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     
-<%@ page import = "java.sql.*" %> <! sql이용을 위해 Import !>
+<%@ page import = "java.sql.*" %> <!sql이용을 위해 Import!>
 
 
 <html>

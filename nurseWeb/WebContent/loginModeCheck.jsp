@@ -1,15 +1,9 @@
 <%@ include file="navar_session.jspf" %>
 <%@page pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %> <! sql이용을 위해 Import !>
-
+<%@ page import ="common.DBconn" %>
 	
 	<%
-	String URL="jdbc:mysql://localhost:3306/hospital";
-	String USER="root";
-	String PASS="jspbook";
-	Connection conn=null;
-	Statement stmt=null;
-	ResultSet rs=null;
 	 request.setCharacterEncoding("UTF-8");
 	 String id=(String)request.getParameter("id");
 	 String pw =(String)request.getParameter("password");
@@ -36,11 +30,18 @@
 	 }
 	 
 	 
+		String result="";
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		Class.forName("com.mysql.jdbc.Driver");
+		conn = DBconn.conn();
+		String sql="select * from "+mode+";";
+		pstmt=conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+		
 		 try{
-				Class.forName("com.mysql.jdbc.Driver");
-				conn = DriverManager.getConnection(URL,USER,PASS);
-				stmt = conn.createStatement();
-				rs = stmt.executeQuery("select * from "+mode);
 				
 				  String Id, PW, Name;
 				  boolean whileBreak=true;
@@ -117,7 +118,7 @@
 			finally
 			{
 				if(rs != null) try{rs.close();}catch(SQLException ex){}
-				if(stmt != null) try{ stmt.close();}catch(SQLException ex){}
+				if(pstmt != null) try{ pstmt.close();}catch(SQLException ex){}
 				if(conn != null)try{conn.close();}catch(SQLException ex){}
 			}
 		 
