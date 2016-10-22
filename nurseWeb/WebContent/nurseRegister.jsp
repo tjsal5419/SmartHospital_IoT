@@ -1,8 +1,25 @@
  <%@ include file="navar_session.jspf" %>
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     
- 
+  <style>   
+ h2{
+    		color: #1fa67b;
+    		font-size: 25px;
+    		text-align: center;
+    		font-weight: bold;
+  			padding-bottom: 15px;
+ 			}
+</style>
+
  <body>
+  <%
+ //세션 만료 시 자동 로그아웃 후 페이지 이동하기 위한 소스
+    session = request.getSession(false);
+    if (session == null || session.getAttribute("id") == null) {
+        out.println("<script>alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.'); location.href='/nurseWeb/LoginPage.jsp'; </script>");
+        return;  // 중요함!!
+    }
+%>
    <div class="container" >
 	    <div class="row">     
 	        <div class="col-xs-12">
@@ -20,7 +37,9 @@
                     </div>
                 </div>
             </div>
-            <hr/>
+            <h2> 간호사 등록 페이지 (관리자용) </h2>
+            <hr/><br/>
+           
                  
         <form name="nurseInfo" class="form-horizontal" role="form" method="post" action="nurseidCheck_Register.jsp">
        
@@ -31,6 +50,7 @@
                 </div>
                 
                   <div class="col-lg-offset-2 col-lg-8">
+                  	<br/>
                     <input type="button" id="idCheck" class="btn btn-default" value="중복 확인">
                   </div>
                   <div id="result" class="col-lg-offset-2 col-lg-10"> </div> 

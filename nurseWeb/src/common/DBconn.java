@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DBconn {
 	public static Connection conn(){
-	String URL="jdbc:mysql://localhost:3306/hospital";
+	String URL="jdbc:mysql://localhost:3306/hospital?useUnicode=true&characterEncoding=UTF-8";
 	String USER="root";
 	String PASS="jspbook";
 

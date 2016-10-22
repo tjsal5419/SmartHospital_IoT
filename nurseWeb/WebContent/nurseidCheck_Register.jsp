@@ -21,10 +21,10 @@
 			
 			Connection conn=null;
 			Statement stmt=null;
+			Statement stmt1=null;
 			ResultSet rs = null;
 			ResultSet rs1 = null;
 			boolean a = true;
-			
 			conn = DBconn.conn();
 			stmt=conn.createStatement();
 			rs = stmt.executeQuery("SELECT COUNT(*) AS 'idCount' FROM hospital.nurse WHERE id='"+nurseid+"';");
@@ -37,12 +37,13 @@
 		              location.href="nurseRegister.jsp";          
 					</script>
 <%		
-				
+
 				}		
 			
 			
 			if(a){
-			stmt.executeUpdate("INSERT INTO hospital.nurse(id,password,Name,Phone) VALUES ('"+nurseid+"','"+nursepw+"','"+nurseName+"','"+nursePhoneNum+"');");
+			stmt1=conn.createStatement();
+			stmt1.executeUpdate("INSERT INTO hospital.nurse(id,password,Name,Phone) VALUES ('"+nurseid+"','"+nursepw+"','"+nurseName+"','"+nursePhoneNum+"');");
 			
 %>					
 			<script type="text/javascript">

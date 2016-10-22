@@ -8,13 +8,10 @@
 	    	padding-top: 30px
 				}
 			#login .form-wrap {
-    		width: 30%;
+    		width: 40%;
     		margin: 0 auto;
 				}
-			#login .form-wrap1 {
-    		width: 30%;
-    		margin: 0 auto;
-				}				
+				
 			#login h2{
 	  		font-size: 15px;
     		text-align: center;
@@ -22,7 +19,7 @@
   			padding-bottom: 1px;
 			}
 			#login h3{
-	  		font-size: 12px;
+	  		font-size: 15px;
     		text-align: center;
   			padding-bottom: 5px;
 			}			
@@ -57,11 +54,7 @@
 			    font-size: 14px;
 			    margin-bottom: 20px;
 			}
-			#login .forget {
-			    font-size: 13px;
-			    text-align: center;
-			    display: block;
-			}
+
 			 
 			 
 			.form-control {
@@ -85,7 +78,7 @@
 	    
 	        <div class="row">
 	        
-	            <div class="col-xs-12">
+	            <div class="col-xs-15">
 	            
 	            
 	                <div class="form-wrap">
@@ -112,11 +105,6 @@
 	                        </div>
 	                        <hr/>
 	                        
-	                        <div class="checkbox">
-	                             
-	                            <span class="character-checkbox" ></span>
-	                            <span class="label">Remember me</span>
-	                        </div>
 	                        <br/>
 	                        <input type="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="로그인" >
 	                    </form>

@@ -7,7 +7,7 @@
 </head>
 <body>
 <%
-String msg = (String)request.getAttribute("sapNum");
+String msg = (String)request.getAttribute("msg");
 %>
 <span style="color:red">
 <%= msg%>
