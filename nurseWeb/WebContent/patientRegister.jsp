@@ -1,8 +1,26 @@
  <%@ include file="navar_session.jspf" %>
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    
  
+ <style>   
+ h2{
+    		color: #1fa67b;
+    		font-size: 25px;
+    		text-align: center;
+    		font-weight: bold;
+  			padding-bottom: 15px;
+ 			}
+</style>
+
  <body>
+ 
+ <%
+ //세션 만료 시 자동 로그아웃 후 페이지 이동하기 위한 소스
+    session = request.getSession(false);
+    if (session == null || session.getAttribute("id") == null) {
+        out.println("<script>alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.'); location.href='/nurseWeb/LoginPage.jsp'; </script>");
+        return;  // 중요함!!
+    }
+%>
    <div class="container" >
 	    <div class="row">     
 	        <div class="col-xs-12">
@@ -20,10 +38,11 @@
                     </div>
                 </div>
             </div>
-            <hr/>
+            <h2> 환자 링거대&수액 등록 페이지 </h2>
+            <hr/><br/>
                  
         <form class="form-horizontal" role="form" method="post" action="patientSapCheck_Register.jsp">
-       
+       		 
             <div class="form-group" id="divSap">
                 <label class="col-lg-2 control-label"> 링거대 번호 </label>
                 <div class="col-lg-8">
@@ -31,6 +50,7 @@
                 </div>
                 
                   <div class="col-lg-offset-2 col-lg-8">
+                  <br/>
                     <input type="button" id="sapCheck" class="btn btn-default" value="링거대 이용 여부 확인">
                   </div>
                   <div id="result" class="col-lg-offset-2 col-lg-10"> </div> 
@@ -40,14 +60,14 @@
             <div class="form-group" id="divSapName">
                 <label class="col-lg-2 control-label"> 링거액 이름 </label>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control" id="sapName" name="sapName" data-rule-required="true" placeholder="링거액 이름을 입력해주세요." maxlength="10">
+                    <input type="text" class="form-control" id="sapName" name="sapName" data-rule-required="false" placeholder="링거액 이름을 입력해주세요." maxlength="100">
                 </div>
             </div>
        
             <div class="form-group" id="divName">
-                <label for="inputName" class="col-lg-2 control-label">환자 이름</label>
+                <label class="col-lg-2 control-label">환자 이름</label>
                 <div class="col-lg-8">
-                    <input type="text" class="form-control onlyHangul" id="name" name="name" data-rule-required="true" placeholder="환자 이름을 입력해주세요." maxlength="10">
+                    <input type="text" class="form-control" id="patientName" name="patientName" data-rule-required="false" placeholder="환자 이름을 입력해주세요." maxlength="10">
                 </div>
             </div>
              
@@ -71,7 +91,7 @@
           		
           		$("#sapCheck").click(function(){
           			var param="sapNum="+$("#sapNum").val();
-          			isMemberChecked = "Y"
+          			isMemberChecked = "Y";
           			          				
           				$.ajax({
           					type: "post",
@@ -115,7 +135,7 @@
                 });
                  
 
-                $('#name').keyup(function(event){
+                $('#patientName').keyup(function(event){
                      
                     var divName = $('#divName');
                      
@@ -133,7 +153,6 @@
                 //------- validation 체크
                 $( "form" ).submit(function( event ) {
                      
-                    var provision = $('#provision');
                     var memberInfo = $('#memberInfo');
                     var divSap = $('#divSap');
                     var divName = $('#divName');

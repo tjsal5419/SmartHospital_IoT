@@ -38,6 +38,9 @@ public class PatientMemberServlet extends HttpServlet {
 		
 		if(sapNum.trim().length()> 0){
 		request.setAttribute("msg", result); //포워딩할 페이지의 정보 분석 객체
+			if(sapNum.length()!=3){
+				request.setAttribute("msg", "링거대 번호는 3자리로 입력해주세요.");
+			}
 		}else{
 			result="등록할 링거대 번호를 입력해주세요.";
 			request.setAttribute("msg",result);
