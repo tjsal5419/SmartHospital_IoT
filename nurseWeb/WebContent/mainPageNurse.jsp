@@ -78,7 +78,7 @@
 <h1>간호사 전용 페이지</h1>
 <h1>환자를 등록하거나 추가하실 수 있습니다</h1>
 
-  <a href="nurseRegister.jsp" class="ghost-button">환자 수액 관리 프로그램</a>
+  <a href="patientSapTable.jsp" class="ghost-button">환자 수액 관리 프로그램</a>
   <br/>
   <a href="patientRegister.jsp" class="ghost-button">환자 정보 추가하기</a>
   <br/>

@@ -38,17 +38,21 @@ body {
 	String loginId = (String)session.getAttribute("id");
 	String loginMode = (String)session.getAttribute("mode");
 	String loginModeKr = null;
+	String mainLocate ;
 	
 	if(loginName != null){
 		
 	if(loginMode.equals("nurse")){
 		loginModeKr="간호사";
+		mainLocate="mainPageNurse.jsp";
 	}
 	else if(loginMode.equals("admin")){
 		loginModeKr="관리자";
+		mainLocate="mainPageAdmin.jsp";
 	}
 	}
 %>
+
 	<!-- 상단 네비게이션 바 이용 -->
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -58,15 +62,27 @@ body {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand"  href="#"> 환자 수액 관리 프로그램 </a>
+<%
+		if(loginName!=null){
+		if(loginMode.equals("nurse")){
+%>			
+          <a class="navbar-brand"  href='mainPageNurse.jsp' > 환자 수액 관리 프로그램 </a>
         </div>
-<%           
+<%	 	}else if(loginMode.equals("admin")){ %>
+          <a class="navbar-brand"  href='mainPageAdmin.jsp' > 환자 수액 관리 프로그램 </a>
+        </div>
+<%		}}
+		else if(loginMode==null){ %>
+          <a class="navbar-brand"  href='#' > 환자 수액 관리 프로그램 </a>
+        </div>
+                
+<%		}           
 	if(loginName == null){
 %>
         <div class="collapse navbar-collapse" align="right">
         
           <ul class="nav navbar-nav  navbar-right">
-	        <li class="active"><a href="#">홈으로</a></li>
+	        <li class="active"><a href="#">반갑습니다.</a></li>
             <li><a href="LoginPage.jsp"> 로그인 </a></li>
           </ul>
         </div> 
@@ -79,6 +95,13 @@ body {
         <div class="collapse navbar-collapse" >
           <ul class="nav navbar-nav  navbar-right ">
 	        <li class="active"><a href="#"><%= loginName%> <%=loginModeKr%> 님 반갑습니다. </a></li>
+<%			if(loginModeKr.equals("간호사")){
+%>
+			<li><a href='ChangeNurseInfo.jsp?id=<%=loginId %>'> 간호사 정보 수정  </a></li>
+<%	
+}
+
+%>
             <li><a href="Logout.jsp"> 로그아웃 </a></li>
          </ul>
         </div> 
