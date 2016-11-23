@@ -17,13 +17,13 @@ public class UdpServer extends Thread
 			String PASS="jspbook";
 			SimpleDateFormat sdf;
 			String sapDate;
-			String hostname = "localhost";
+			String hostname = "localhost"; 
 			int port,recv_port;
 			
 	public UdpServer() throws SocketException{
 		super();
-		port=3332;
-		recv_port=3333;
+		port=3335;
+		recv_port=3336;
 		socket = new DatagramSocket(port);
 		// 통신할 포트를 지정해준다.
 	}
@@ -61,7 +61,7 @@ public class UdpServer extends Thread
 				sapDate=sdf.format(today);
 				System.out.println(sapDate);
 				
-				if(recvMsg.contains("/")){
+				if(recvMsg.contains("/")){ //수액양 받은 경우
 				piNum = recvMsg.substring(0, 3);
 				sapAmount = recvMsg.substring(4, 5);
 				System.out.println(piNum+"="+sapAmount);
@@ -74,14 +74,14 @@ public class UdpServer extends Thread
 	    		System.out.println(recvMsg);
 	    		
 				if(sapAmount.equals("3")){
-					System.out.println("수액 양이 충분합니다.");
+					System.out.println(piNum+"의 수액 양이 충분합니다.");
 					
 				}
 				else if(sapAmount.equals("2")){
-					System.out.println("수액 양이 적당합니다.");
+					System.out.println(piNum+"수액 양이 적당합니다.");
 				}
 				else if(sapAmount.equals("1")) {
-					System.out.println("수액 양이 부족합니다. 교체해주세요");
+					System.out.println(piNum+"수액 양이 부족합니다. 교체해주세요");
 				}	
 				
 				if(rs.next()){
@@ -105,7 +105,7 @@ public class UdpServer extends Thread
 					int sendPort = socket.getLocalPort();
 					System.out.println(sendPort);
 					
-					String sendMsg = "stored";
+					String sendMsg = "noterror";
 					byte[] sendMsgByte = sendMsg.getBytes();
 
 			
@@ -114,7 +114,7 @@ public class UdpServer extends Thread
 					System.out.println("send");
 					
 				}}else{
-					System.out.println("등록되지 않은 수액번호입니다.");
+					System.out.println(piNum+"은 등록되지 않은 수액번호입니다.");
 					
 					String ia = (packet.getAddress()).getHostAddress();
 					InetAddress inet = InetAddress.getByName(ia);
@@ -133,17 +133,20 @@ public class UdpServer extends Thread
 				
 				}
 				
-				}else if(recvMsg.contains("-"))
+				}else if(recvMsg.contains("-")) //스위치 상태 받은 경우
 				{
 					swNum = recvMsg.substring(0, 3);
 					sw = recvMsg.substring(4, 5);
+					
+					
 					String sql = "SELECT count(*) AS counter FROM hospital.patient WHERE sapNum="+swNum;
 					stmt=conn.createStatement();
 					rs = stmt.executeQuery(sql);
 					
 					while(rs.next()){
 						if(rs.getString("counter").equals("0")){
-							System.out.println("등록되지 않은 수액번호입니다.");
+							if(sw.equals("1")){
+							System.out.println(swNum+"은 등록되지 않은 수액번호입니다.");
 							
 							String ia = (packet.getAddress()).getHostAddress();
 							InetAddress inet = InetAddress.getByName(ia);
@@ -159,13 +162,16 @@ public class UdpServer extends Thread
 							DatagramPacket sendPacket=new DatagramPacket(sendMsgByte, sendMsgByte.length, inet, recv_port);
 							socket.send(sendPacket);
 							System.out.println("error");
-						
+							}
+							else System.out.println("스위치가 꺼져있습니다.");
 						}
 						else if(rs.getString("counter").equals("1")){
 							sql="UPDATE hospital.patient SET switch ="+sw+" WHERE sapNum="+swNum;
+							
 							stmt=conn.createStatement();
 							stmt.executeUpdate(sql);
-							System.out.println("등록된 수액번호입니다.");
+							if(sw.equals("1")){
+							System.out.println(swNum+"등록된 수액번호입니다.");
 							
 							String ia = (packet.getAddress()).getHostAddress();
 							InetAddress inet = InetAddress.getByName(ia);
@@ -181,10 +187,17 @@ public class UdpServer extends Thread
 							DatagramPacket sendPacket=new DatagramPacket(sendMsgByte, sendMsgByte.length, inet, recv_port);
 							socket.send(sendPacket);
 							System.out.println("noterror");
+						}else if(sw.equals("0")) {
+							System.out.println(swNum+"의 스위치가 꺼져있습니다.");
+							sql="UPDATE hospital.patient SET sapDate = null WHERE sapNum="+swNum;
+							stmt=conn.createStatement();
+							stmt.executeUpdate(sql);
 						}
+												}
 					}
 					
 				}
+				
 			    		
 				rs.close();
 				stmt.close();

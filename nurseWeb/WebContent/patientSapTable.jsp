@@ -43,7 +43,7 @@
 }
       	</style>
 <head>
-<meta http-equiv="refresh" content="5;" />
+<meta http-equiv="refresh" content="3;" />
 </head>      	
 
 <body>    	
